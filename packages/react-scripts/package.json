@@ -1,6 +1,6 @@
 {
-  "name": "react-scripts",
-  "version": "1.0.10",
+  "name": "eh-react-scripts",
+  "version": "1.0.10-2",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebookincubator/create-react-app",
   "license": "BSD-3-Clause",
@@ -18,7 +18,7 @@
     "utils"
   ],
   "bin": {
-    "react-scripts": "./bin/react-scripts.js"
+    "eh-react-scripts": "./bin/react-scripts.js"
   },
   "dependencies": {
     "autoprefixer": "7.1.1",

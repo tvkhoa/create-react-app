@@ -48,6 +48,11 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+const envLibName = process.env.LIB_NAME;
+
+const getLibName = appPackageJson =>
+  envLibName || require(appPackageJson).libName;
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -82,6 +87,9 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  appExportIndex: resolveApp('src/export.js'),
+  appExportBuild: resolveApp('dist'),
+  libName: getLibName(resolveApp('package.json')),
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
@@ -112,6 +120,9 @@ if (
     appNodeModules: resolveOwn('node_modules'),
     publicUrl: getPublicUrl(resolveOwn('package.json')),
     servedPath: getServedPath(resolveOwn('package.json')),
+    appExportIndex: resolveApp('src/export.js'),
+    appExportBuild: resolveApp('dist'),
+    libName: getLibName(resolveApp('package.json')),
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
