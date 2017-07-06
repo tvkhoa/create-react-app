@@ -36,8 +36,9 @@ function camelize(str) {
   if (!str) {
     return;
   }
-  const _hyphenPattern = /-(.)/g;
-  return str.replace(_hyphenPattern, function(_, character) {
+  const normalizedStr = str.replace(/[^a-zA-Z-\/]/g, "");
+  const _hyphenPattern = /[-\/](.)/g;
+  return normalizedStr.replace(_hyphenPattern, function(_, character) {
     return character.toUpperCase();
   });
 }
