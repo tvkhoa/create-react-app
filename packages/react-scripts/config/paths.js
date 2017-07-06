@@ -32,19 +32,24 @@ function ensureSlash(path, needsSlash) {
   }
 }
 
-function camelize(string) {
+function camelize(str) {
+  if (!str) {
+    return;
+  }
   const _hyphenPattern = /-(.)/g;
-  return string.replace(_hyphenPattern, function(_, character) {
+  return str.replace(_hyphenPattern, function(_, character) {
     return character.toUpperCase();
   });
 }
-
 
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
 
 const getExportPublicUrl = appPackageJson =>
-  `${process.env.CDN_PATH}/${require(appPackageJson).name}/${require(appPackageJson).version}`;
+  `${process.env.CDN_PATH}/${require(appPackageJson)
+    .name}/${require(appPackageJson).version}`;
+
+const getName = appPackageJson => require(appPackageJson).name;
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -66,9 +71,11 @@ function getExportServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
-
-
-const getLibName = appPackageJson => camelize(require(appPackageJson).libName);
+const getLibName = appPackageJson => {
+  const name = getName(appPackageJson);
+  console.log('name', name);
+  return camelize(name);
+};
 
 // config after eject: we're in ./config/
 module.exports = {
