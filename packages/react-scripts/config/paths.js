@@ -32,8 +32,19 @@ function ensureSlash(path, needsSlash) {
   }
 }
 
+function camelize(string) {
+  const _hyphenPattern = /-(.)/g;
+  return string.replace(_hyphenPattern, function(_, character) {
+    return character.toUpperCase();
+  });
+}
+
+
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
+
+const getExportPublicUrl = appPackageJson =>
+  `${process.env.CDN_PATH}/${require(appPackageJson).name}/${require(appPackageJson).version}`;
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -48,10 +59,16 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
-const envLibName = process.env.LIB_NAME;
+function getExportServedPath(appPackageJson) {
+  const publicUrl = getExportPublicUrl(appPackageJson);
+  const servedUrl =
+    envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/');
+  return ensureSlash(servedUrl, true);
+}
 
-const getLibName = appPackageJson =>
-  envLibName || require(appPackageJson).libName;
+
+
+const getLibName = appPackageJson => camelize(require(appPackageJson).libName);
 
 // config after eject: we're in ./config/
 module.exports = {
@@ -67,6 +84,10 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  exportServedPath: getExportServedPath(resolveApp('package.json')),
+  appExportIndex: resolveApp('src/export.js'),
+  appExportBuild: resolveApp('dist'),
+  libName: getLibName(resolveApp('package.json')),
 };
 
 // @remove-on-eject-begin
@@ -87,6 +108,7 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  exportServedPath: getExportServedPath(resolveApp('package.json')),
   appExportIndex: resolveApp('src/export.js'),
   appExportBuild: resolveApp('dist'),
   libName: getLibName(resolveApp('package.json')),
@@ -120,6 +142,7 @@ if (
     appNodeModules: resolveOwn('node_modules'),
     publicUrl: getPublicUrl(resolveOwn('package.json')),
     servedPath: getServedPath(resolveOwn('package.json')),
+    exportServedPath: getExportServedPath(resolveApp('package.json')),
     appExportIndex: resolveApp('src/export.js'),
     appExportBuild: resolveApp('dist'),
     libName: getLibName(resolveApp('package.json')),
