@@ -48,27 +48,27 @@ const externals = {
     amd: 'react-dom',
     umd: 'react-dom',
   },
-  lodash: {
-    root: '_',
-    commonjs2: 'lodash',
-    commonjs: 'lodash',
-    amd: 'lodash',
-    umd: 'lodash',
-  },
-  'lodash/fp': {
-    root: 'fp',
-    commonjs2: 'lodash/fp',
-    commonjs: 'lodash/fp',
-    amd: 'lodash/fp',
-    umd: 'lodash/fp',
-  },
-  redux: {
-    root: 'redux',
-    commonjs2: 'redux',
-    commonjs: 'redux',
-    amd: 'redux',
-    umd: 'redux',
-  },
+  // lodash: {
+  //   root: '_',
+  //   commonjs2: 'lodash',
+  //   commonjs: 'lodash',
+  //   amd: 'lodash',
+  //   umd: 'lodash',
+  // },
+  // 'lodash/fp': {
+  //   root: 'fp',
+  //   commonjs2: 'lodash/fp',
+  //   commonjs: 'lodash/fp',
+  //   amd: 'lodash/fp',
+  //   umd: 'lodash/fp',
+  // },
+  // redux: {
+  //   root: 'redux',
+  //   commonjs2: 'redux',
+  //   commonjs: 'redux',
+  //   amd: 'redux',
+  //   umd: 'redux',
+  // },
 };
 
 // Assert this just to be safe.
@@ -110,7 +110,7 @@ module.exports = {
     chunkFilename: 'static/js/[name].chunk.js',
     // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath,
-    library: path.libName,
+    library: paths.libName,
     libraryTarget: 'umd',
     umdNamedDefine: true,
     // Point sourcemap entries to original disk location (format as URL on Windows)
