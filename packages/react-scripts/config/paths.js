@@ -32,6 +32,13 @@ function ensureSlash(path, needsSlash) {
   }
 }
 
+const normalizeName = name => {
+  if (name.substring(0, 9) === '@ehrocks/') {
+    return name.replace('@ehrocks/', '');
+  }
+  return name;
+};
+
 function camelize(str) {
   if (!str) {
     return;
@@ -47,8 +54,9 @@ const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
 
 const getExportPublicUrl = appPackageJson =>
-  `${process.env.CDN_PATH}/${require(appPackageJson)
-    .name}/${require(appPackageJson).version}`;
+  `${process.env.CDN_PATH}/${normalizeName(
+    require(appPackageJson).name
+  )}/${require(appPackageJson).version}`;
 
 const getName = appPackageJson => require(appPackageJson).name;
 
@@ -67,14 +75,12 @@ function getServedPath(appPackageJson) {
 
 function getExportServedPath(appPackageJson) {
   const publicUrl = getExportPublicUrl(appPackageJson);
-  const servedUrl =
-    envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/');
+  const servedUrl = publicUrl;
   return ensureSlash(servedUrl, true);
 }
 
 const getLibName = appPackageJson => {
-  const name = getName(appPackageJson);
-  console.log('name', name);
+  const name = normalizeName(getName(appPackageJson));
   return camelize(name);
 };
 
