@@ -99,7 +99,7 @@ module.exports = {
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
   exportServedPath: getExportServedPath(resolveApp('package.json')),
-  appExportIndex: resolveApp('src/export.js'),
+  appExportIndex: resolveApp('src/index.js'),
   appExportBuild: resolveApp('dist'),
   libName: getLibName(resolveApp('package.json')),
 };
@@ -123,7 +123,7 @@ module.exports = {
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
   exportServedPath: getExportServedPath(resolveApp('package.json')),
-  appExportIndex: resolveApp('src/export.js'),
+  appExportIndex: resolveApp('src/index.js'),
   appExportBuild: resolveApp('dist'),
   libName: getLibName(resolveApp('package.json')),
   // These properties only exist before ejecting:
@@ -157,7 +157,7 @@ if (
     publicUrl: getPublicUrl(resolveOwn('package.json')),
     servedPath: getServedPath(resolveOwn('package.json')),
     exportServedPath: getExportServedPath(resolveApp('package.json')),
-    appExportIndex: resolveApp('src/export.js'),
+    appExportIndex: resolveApp('src/index.js'),
     appExportBuild: resolveApp('dist'),
     libName: getLibName(resolveApp('package.json')),
     // These properties only exist before ejecting:

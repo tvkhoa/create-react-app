@@ -48,27 +48,6 @@ const externals = {
     amd: 'react-dom',
     umd: 'react-dom',
   },
-  // lodash: {
-  //   root: '_',
-  //   commonjs2: 'lodash',
-  //   commonjs: 'lodash',
-  //   amd: 'lodash',
-  //   umd: 'lodash',
-  // },
-  // 'lodash/fp': {
-  //   root: 'fp',
-  //   commonjs2: 'lodash/fp',
-  //   commonjs: 'lodash/fp',
-  //   amd: 'lodash/fp',
-  //   umd: 'lodash/fp',
-  // },
-  // redux: {
-  //   root: 'redux',
-  //   commonjs2: 'redux',
-  //   commonjs: 'redux',
-  //   amd: 'redux',
-  //   umd: 'redux',
-  // },
 };
 
 // Assert this just to be safe.
