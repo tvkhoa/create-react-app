@@ -53,8 +53,18 @@ function camelize(str) {
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
 
-const getExportPublicUrl = appPackageJson =>
-  `${process.env.CDN_PATH}/${normalizeName(
+const getExportPublicUrl = (appPackageJson, isProduction) =>
+  isProduction
+    ? getExportPublicProductionUrl(appPackageJson)
+    : getExportPublicStagingUrl(appPackageJson);
+
+const getExportPublicProductionUrl = appPackageJson =>
+  `${process.env.CDN_PATH_PRODUCTION}/${normalizeName(
+    require(appPackageJson).name
+  )}/${require(appPackageJson).version}`;
+
+const getExportPublicStagingUrl = appPackageJson =>
+  `${process.env.CDN_PATH_STAGING}/${normalizeName(
     require(appPackageJson).name
   )}/${require(appPackageJson).version}`;
 
@@ -73,8 +83,8 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
-function getExportServedPath(appPackageJson) {
-  const publicUrl = getExportPublicUrl(appPackageJson);
+function getExportServedPath(appPackageJson, isProduction) {
+  const publicUrl = getExportPublicUrl(appPackageJson, isProduction);
   const servedUrl = publicUrl;
   return ensureSlash(servedUrl, true);
 }
@@ -98,7 +108,8 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  exportServedPath: getExportServedPath(resolveApp('package.json')),
+  exportServedPath: isProduction =>
+    getExportServedPath(resolveApp('package.json', isProduction)),
   appExportIndex: resolveApp('src/index.js'),
   appExportBuild: resolveApp('dist'),
   libName: getLibName(resolveApp('package.json')),

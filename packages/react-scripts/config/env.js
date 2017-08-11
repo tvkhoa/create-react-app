@@ -35,6 +35,7 @@ var dotenvFiles = [
   paths.dotenv,
 ].filter(Boolean);
 
+console.log('dotenvFiles', dotenvFiles);
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.
@@ -93,6 +94,8 @@ function getClientEnvironment(publicUrl) {
       return env;
     }, {}),
   };
+
+  console.log('stringified value', stringified);
 
   return { raw, stringified };
 }
