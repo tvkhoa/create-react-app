@@ -109,7 +109,7 @@ module.exports = {
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
   exportServedPath: isProduction =>
-    getExportServedPath(resolveApp('package.json', isProduction)),
+    getExportServedPath(resolveApp('package.json'), isProduction),
   appExportIndex: resolveApp('src/index.js'),
   appExportBuild: resolveApp('dist'),
   libName: getLibName(resolveApp('package.json')),
@@ -133,7 +133,8 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  exportServedPath: getExportServedPath(resolveApp('package.json')),
+  exportServedPath: isProduction =>
+    getExportServedPath(resolveApp('package.json'), isProduction),
   appExportIndex: resolveApp('src/index.js'),
   appExportBuild: resolveApp('dist'),
   libName: getLibName(resolveApp('package.json')),
@@ -167,7 +168,8 @@ if (
     appNodeModules: resolveOwn('node_modules'),
     publicUrl: getPublicUrl(resolveOwn('package.json')),
     servedPath: getServedPath(resolveOwn('package.json')),
-    exportServedPath: getExportServedPath(resolveApp('package.json')),
+    exportServedPath: isProduction =>
+      getExportServedPath(resolveApp('package.json'), isProduction),
     appExportIndex: resolveApp('src/index.js'),
     appExportBuild: resolveApp('dist'),
     libName: getLibName(resolveApp('package.json')),
