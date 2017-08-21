@@ -32,6 +32,8 @@ const useYarn = fs.existsSync(paths.yarnLockFile);
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
+const isProduction = !!process.env.EXPORT_PRODUCTION;
+
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
@@ -39,11 +41,11 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
-measureFileSizesBeforeBuild(paths.appExportBuild)
+measureFileSizesBeforeBuild(paths.appExportBuild(isProduction))
   .then(previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appExportBuild);
+    fs.emptyDirSync(paths.appExportBuild(isProduction));
     // Merge with the public folder
     copyPublicFolder();
     // Start the webpack build
@@ -72,7 +74,7 @@ measureFileSizesBeforeBuild(paths.appExportBuild)
       printFileSizesAfterBuild(
         stats,
         previousFileSizes,
-        paths.appExportBuild,
+        paths.appExportBuild(isProduction),
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
@@ -81,7 +83,10 @@ measureFileSizesBeforeBuild(paths.appExportBuild)
       const appPackage = require(paths.appPackageJson);
       const publicUrl = paths.publicUrl;
       const publicPath = config.output.publicPath;
-      const buildFolder = path.relative(process.cwd(), paths.appExportBuild);
+      const buildFolder = path.relative(
+        process.cwd(),
+        paths.appExportBuild(isProduction)
+      );
       printHostingInstructions(
         appPackage,
         publicUrl,
@@ -135,7 +140,7 @@ function build(previousFileSizes) {
 }
 
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appExportBuild, {
+  fs.copySync(paths.appPublic, paths.appExportBuild(isProduction), {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });

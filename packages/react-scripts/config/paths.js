@@ -111,7 +111,8 @@ module.exports = {
   exportServedPath: isProduction =>
     getExportServedPath(resolveApp('package.json'), isProduction),
   appExportIndex: resolveApp('src/index.js'),
-  appExportBuild: resolveApp('dist'),
+  appExportBuild: isProduction =>
+    !isProduction ? resolveApp('distStaging') : resolveApp('distProduction'),
   libName: getLibName(resolveApp('package.json')),
 };
 
@@ -136,7 +137,8 @@ module.exports = {
   exportServedPath: isProduction =>
     getExportServedPath(resolveApp('package.json'), isProduction),
   appExportIndex: resolveApp('src/index.js'),
-  appExportBuild: resolveApp('dist'),
+  appExportBuild: isProduction =>
+    !isProduction ? resolveApp('distStaging') : resolveApp('distProduction'),
   libName: getLibName(resolveApp('package.json')),
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
@@ -171,7 +173,8 @@ if (
     exportServedPath: isProduction =>
       getExportServedPath(resolveApp('package.json'), isProduction),
     appExportIndex: resolveApp('src/index.js'),
-    appExportBuild: resolveApp('dist'),
+    appExportBuild: isProduction =>
+      !isProduction ? resolveApp('distStaging') : resolveApp('distProduction'),
     libName: getLibName(resolveApp('package.json')),
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
