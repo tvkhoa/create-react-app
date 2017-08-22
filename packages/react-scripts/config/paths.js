@@ -61,12 +61,12 @@ const getExportPublicUrl = (appPackageJson, isProduction) =>
 const getExportPublicProductionUrl = appPackageJson =>
   `${process.env.CDN_PATH_PRODUCTION}/${normalizeName(
     require(appPackageJson).name
-  )}/${require(appPackageJson).version}`;
+  )}/production/${require(appPackageJson).version}`;
 
 const getExportPublicStagingUrl = appPackageJson =>
   `${process.env.CDN_PATH_STAGING}/${normalizeName(
     require(appPackageJson).name
-  )}/${require(appPackageJson).version}`;
+  )}/staging/${require(appPackageJson).version}`;
 
 const getName = appPackageJson => require(appPackageJson).name;
 
