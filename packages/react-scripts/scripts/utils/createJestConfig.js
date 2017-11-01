@@ -26,10 +26,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
     collectCoverageFrom: ['src/**/*.{js,jsx}'],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
-    testMatch: [
-      '<rootDir>/src/**/__tests__/**/*.js?(x)',
-      '<rootDir>/src/**/?(*.)(spec|test).js?(x)',
-    ],
+    testMatch: ['<rootDir>/src/**/__tests__/**/?(*.)(spec|test).js?(x)'],
     testEnvironment: 'node',
     testURL: 'http://localhost',
     transform: {
