@@ -38,8 +38,6 @@ const env = getClientEnvironment(publicUrl);
 
 const isEhBuild = !!process.env.REACT_APP_EH_BUILD;
 
-const customAppBuildPath = process.env.REACT_APP_APP_BUILD_PATH;
-
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
@@ -76,7 +74,7 @@ module.exports = {
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
   output: {
     // The build folder.
-    path: customAppBuildPath || paths.appBuild,
+    path: paths.appBuild,
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
