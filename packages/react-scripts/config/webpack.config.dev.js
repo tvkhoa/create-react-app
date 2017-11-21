@@ -42,6 +42,8 @@ module.exports = {
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: [
     // We ship a few polyfills by default:
+    'es6-shim',
+    'babel-polyfill',
     require.resolve('./polyfills'),
     // Include an alternative client for WebpackDevServer. A client's job is to
     // connect to WebpackDevServer by a socket and get notified about changes.
@@ -125,6 +127,11 @@ module.exports = {
   module: {
     strictExportPresence: true,
     rules: [
+      {
+        parser: {
+          amd: false,
+        },
+      },
       // TODO: Disable require.ensure as it's not a standard language feature.
       // We are waiting for https://github.com/facebookincubator/create-react-app/issues/2176.
       // { parser: { requireEnsure: false } },
