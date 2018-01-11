@@ -1,11 +1,9 @@
 // @remove-on-eject-begin
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 // @remove-on-eject-end
 'use strict';
@@ -34,6 +32,7 @@ const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
+const printBuildError = require('react-dev-utils/printBuildError');
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -58,6 +57,31 @@ measureFileSizesBeforeBuild(paths.appBuild)
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
     copyPublicFolder();
+
+    // Check if every vendors are defined in the package.json
+    // @remove-on-eject-begin
+    // The devDepencencies shouldn't be available for vendors
+    // But otherwise the tests fail.
+    // @remove-on-eject-end
+    const packageJson = require(paths.appPackageJson);
+    const dependencies = Object.keys(packageJson.dependencies || {})
+      .concat(Object.keys(packageJson.devDependencies || {}))
+      .concat(Object.keys(packageJson.peerDependencies || {}));
+    const vendors = fs.existsSync(paths.appVendors)
+      ? require(paths.appVendors)
+      : [];
+    const missingVendors = vendors.filter(
+      vendor => dependencies.indexOf(vendor) === -1
+    );
+    if (missingVendors.length > 0) {
+      throw new Error(
+        'Error: Unknown vendors: ' +
+          chalk.yellow(missingVendors) +
+          " should be listed in the project's dependencies.\n" +
+          `(Vendors defined in '${path.resolve(paths.appVendors)}')`
+      );
+    }
+
     // Start the webpack build
     return build(previousFileSizes);
   })
@@ -104,7 +128,7 @@ measureFileSizesBeforeBuild(paths.appBuild)
     },
     err => {
       console.log(chalk.red('Failed to compile.\n'));
-      console.log((err.message || err) + '\n');
+      printBuildError(err);
       process.exit(1);
     }
   );
@@ -121,6 +145,11 @@ function build(previousFileSizes) {
       }
       const messages = formatWebpackMessages(stats.toJson({}, true));
       if (messages.errors.length) {
+        // Only keep the first error. Others are often indicative
+        // of the same problem, but confuse the reader with noise.
+        if (messages.errors.length > 1) {
+          messages.errors.length = 1;
+        }
         return reject(new Error(messages.errors.join('\n\n')));
       }
       if (
