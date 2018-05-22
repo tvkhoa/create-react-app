@@ -1,6 +1,6 @@
 {
-  "name": "react-scripts",
-  "version": "1.1.0",
+  "name": "eh-react-scripts",
+  "version": "2.0.0-beta0",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -18,7 +18,7 @@
     "utils"
   ],
   "bin": {
-    "react-scripts": "./bin/react-scripts.js"
+    "eh-react-scripts": "./bin/react-scripts.js"
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.46",
@@ -29,10 +29,12 @@
     "babel-jest": "22.4.3",
     "babel-loader": "8.0.0-beta.0",
     "babel-plugin-named-asset-import": "^0.1.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^3.1.1",
     "bfj": "5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
+    "circular-dependency-plugin": "4.4.0",
     "css-loader": "0.28.11",
     "dotenv": "5.0.1",
     "dotenv-expand": "4.2.0",
@@ -69,12 +71,13 @@
     "url-loader": "1.0.1",
     "webpack": "4.8.3",
     "webpack-dev-server": "3.1.4",
-    "webpack-manifest-plugin": "2.0.3",
-    "whatwg-fetch": "2.0.4"
+    "webpack-manifest-plugin": "2.0.2",
+    "whatwg-fetch": "2.0.4",
+    "react-hot-loader": "^4.0.0"
   },
   "devDependencies": {
-    "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "optionalDependencies": {
     "fsevents": "1.2.0"

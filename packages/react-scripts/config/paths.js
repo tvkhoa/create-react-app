@@ -19,6 +19,7 @@ const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const envPublicUrl = process.env.PUBLIC_URL;
+const customAppBuildPath = process.env.REACT_APP_APP_BUILD_PATH;
 
 function ensureSlash(inputPath, needsSlash) {
   const hasSlash = inputPath.endsWith('/');
@@ -31,8 +32,43 @@ function ensureSlash(inputPath, needsSlash) {
   }
 }
 
+const normalizeName = name => {
+  if (name.substring(0, 9) === '@ehrocks/') {
+    return name.replace('@ehrocks/', '');
+  }
+  return name;
+};
+
+function camelize(str) {
+  if (!str) {
+    return;
+  }
+  const normalizedStr = str.replace(/[^a-zA-Z-\/]/g, '');
+  const _hyphenPattern = /[-\/](.)/g;
+  return normalizedStr.replace(_hyphenPattern, function(_, character) {
+    return character.toUpperCase();
+  });
+}
+
 const getPublicUrl = appPackageJson =>
   envPublicUrl || require(appPackageJson).homepage;
+
+const getExportPublicUrl = (appPackageJson, isProduction) =>
+  isProduction
+    ? getExportPublicProductionUrl(appPackageJson)
+    : getExportPublicStagingUrl(appPackageJson);
+
+const getExportPublicProductionUrl = appPackageJson =>
+  `${process.env.CDN_PATH_PRODUCTION}/${normalizeName(
+    require(appPackageJson).name
+  )}/production/${require(appPackageJson).version}`;
+
+const getExportPublicStagingUrl = appPackageJson =>
+  `${process.env.CDN_PATH_STAGING}/${normalizeName(
+    require(appPackageJson).name
+  )}/staging/${require(appPackageJson).version}`;
+
+const getName = appPackageJson => require(appPackageJson).name;
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -47,11 +83,24 @@ function getServedPath(appPackageJson) {
   return ensureSlash(servedUrl, true);
 }
 
+function getExportServedPath(appPackageJson, isProduction) {
+  const publicUrl = getExportPublicUrl(appPackageJson, isProduction);
+  const servedUrl = publicUrl;
+  return ensureSlash(servedUrl, true);
+}
+
+const getLibName = appPackageJson => {
+  const name = normalizeName(getName(appPackageJson));
+  return camelize(name);
+};
+
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
+  appBuild: customAppBuildPath
+    ? resolveApp(customAppBuildPath)
+    : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),
@@ -61,6 +110,12 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  exportServedPath: isProduction =>
+    getExportServedPath(resolveApp('package.json'), isProduction),
+  appExportIndex: resolveApp('src/index.js'),
+  appExportBuild: isProduction =>
+    !isProduction ? resolveApp('distStaging') : resolveApp('distProduction'),
+  libName: getLibName(resolveApp('package.json')),
 };
 
 let checkForMonorepo = true;
@@ -72,7 +127,9 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp('build'),
+  appBuild: customAppBuildPath
+    ? resolveApp(customAppBuildPath)
+    : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),
@@ -82,6 +139,12 @@ module.exports = {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
+  exportServedPath: isProduction =>
+    getExportServedPath(resolveApp('package.json'), isProduction),
+  appExportIndex: resolveApp('src/index.js'),
+  appExportBuild: isProduction =>
+    !isProduction ? resolveApp('distStaging') : resolveApp('distProduction'),
+  libName: getLibName(resolveApp('package.json')),
   // These properties only exist before ejecting:
   ownPath: resolveOwn('.'),
   ownNodeModules: resolveOwn('node_modules'), // This is empty on npm 3
@@ -97,7 +160,9 @@ if (useTemplate) {
   module.exports = {
     dotenv: resolveOwn('template/.env'),
     appPath: resolveApp('.'),
-    appBuild: resolveOwn('../../build'),
+    appBuild: customAppBuildPath
+      ? resolveOwn(`../../${customAppBuildPath}`)
+      : resolveOwn('../../build'),
     appPublic: resolveOwn('template/public'),
     appHtml: resolveOwn('template/public/index.html'),
     appIndexJs: resolveOwn('template/src/index.js'),
@@ -107,6 +172,12 @@ if (useTemplate) {
     appNodeModules: resolveOwn('node_modules'),
     publicUrl: getPublicUrl(resolveOwn('package.json')),
     servedPath: getServedPath(resolveOwn('package.json')),
+    exportServedPath: isProduction =>
+      getExportServedPath(resolveApp('package.json'), isProduction),
+    appExportIndex: resolveApp('src/index.js'),
+    appExportBuild: isProduction =>
+      !isProduction ? resolveApp('distStaging') : resolveApp('distProduction'),
+    libName: getLibName(resolveApp('package.json')),
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
