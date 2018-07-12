@@ -112,9 +112,9 @@ module.exports = {
     pathinfo: true,
 
     // Export to lib
-    library: paths.libName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true,
+    // library: paths.libName,
+    // libraryTarget: 'umd',
+    // umdNamedDefine: true,
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
