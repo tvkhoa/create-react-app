@@ -42,12 +42,12 @@ module.exports = (resolve, rootDir, isEjecting) => {
     },
     moduleFileExtensions: [
       'web.js',
-      'mjs',
       'js',
       'json',
       'web.jsx',
       'jsx',
       'node',
+      'mjs',
     ],
   };
   if (rootDir) {
