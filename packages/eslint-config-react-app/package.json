@@ -19,6 +19,6 @@
     "eslint-plugin-react": "^7.8.2"
   },
   "dependencies": {
-    "confusing-browser-globals": "^1.0.0"
+    "confusing-browser-globals": "file:../confusing-browser-globals"
   }
 }

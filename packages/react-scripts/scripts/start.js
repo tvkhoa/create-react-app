@@ -89,7 +89,10 @@ checkBrowsers(paths.appPath)
     }
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
-    const urls = prepareUrls(protocol, HOST, port);
+    // const urls = prepareUrls(protocol, HOST, port);
+    // Custom for EH
+    const mainAppPort = 3000;
+    const urls = prepareUrls(protocol, HOST, mainAppPort);
     // Create a webpack compiler that is configured with custom messages.
     const compiler = createCompiler(
       webpack,
