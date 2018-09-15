@@ -27,10 +27,7 @@ module.exports = (resolve, rootDir, srcRoots) => {
     collectCoverageFrom: ['src/**/*.{js,jsx,mjs}'],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
-    testMatch: [
-      '**/__tests__/**/*.{js,jsx,mjs}',
-      '**/?(*.)(spec|test).{js,jsx,mjs}',
-    ],
+    testMatch: ['<rootDir>/src/**/__tests__/**/?(*.)(spec|test).{js,jsx,mjs}'],
     // where to search for files/tests
     roots: srcRoots.map(toRelRootDir),
     testEnvironment: 'node',
