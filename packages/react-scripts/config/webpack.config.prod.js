@@ -119,7 +119,10 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the app code.
-  entry: [paths.appIndexJs],
+  entry: {
+    index: [paths.appIndexJs],
+    admin: [paths.appSrc + '/admin.js'], // EH custom
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -475,6 +478,26 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
+      chunks: ['index'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+    }),
+    // EH custom
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: paths.appHtml,
+      chunks: ['admin'],
+      filename: 'admin.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
