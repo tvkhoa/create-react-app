@@ -43,7 +43,6 @@ const {
 } = require('@ehrocks/react-dev-utils/WebpackDevServerUtils');
 const openBrowser = require('@ehrocks/react-dev-utils/openBrowser');
 const paths = require('../config/paths');
-const config = require('../config/webpack.config.dev');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
@@ -79,7 +78,7 @@ if (process.env.HOST) {
 // browserslist defaults.
 const { checkBrowsers } = require('@ehrocks/react-dev-utils/browsersHelper');
 
-function reactScriptStart() {
+function reactScriptStart(useDevModule) {
   checkBrowsers(paths.appPath, isInteractive)
     .then(() => {
       // We attempt to use the default port but if it is busy, we offer the user to
@@ -87,6 +86,7 @@ function reactScriptStart() {
       return choosePort(HOST, DEFAULT_PORT);
     })
     .then(port => {
+      const config = require('../config/webpack.config.dev');
       if (port == null) {
         // We have not found a port.
         return;
@@ -98,6 +98,8 @@ function reactScriptStart() {
       const mainAppPort = 3000;
       const urls = prepareUrls(protocol, HOST, mainAppPort);
       // Create a webpack compiler that is configured with custom messages.
+      // Add app entry to config
+      config.entry.push(paths.getDevAppIndex(useDevModule));
       const compiler = createCompiler(webpack, config, appName, urls, useYarn);
       // Load proxy config
       const proxySetting = require(paths.appPackageJson).proxy;
@@ -114,7 +116,7 @@ function reactScriptStart() {
           return console.log(err);
         }
         if (isInteractive) {
-          clearConsole();
+          // clearConsole();
         }
         console.log(chalk.cyan('Starting the development server...\n'));
         openBrowser(urls.localUrlForBrowser);

@@ -116,9 +116,6 @@ function processDevRoutes(reactAppCallback) {
       reactAppCallback();
     }
     else {
-      // Enable env so that config can be read well
-      process.env.DEV_MODULE = true;
-
       // Preprocess routes
       const importedRoutesStr = calcImportedRoutes(ehRoutes);
       const registeredStr = calcRegisteredRoutes(ehRoutes);
@@ -127,7 +124,9 @@ function processDevRoutes(reactAppCallback) {
       writeRoutes(DEV_ROUTES_FILE_PATH, importedRoutesStr, registeredStr);
 
       console.log(green(`Handle ${ehRoutes.join(',')} in dev mode`));
-      reactAppCallback();
+
+      // Notify use dev module instead of main entry
+      reactAppCallback(true);
     }
 
     return;

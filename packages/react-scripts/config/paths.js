@@ -105,9 +105,10 @@ module.exports = {
   appHtml: resolveApp('public/index.html'),
   appDevRoutes: resolveApp(`src/modules/__dev__/routeConfig.js`),
   appDevDefaultChoices: resolveApp(`src/modules/__dev__/.defaultChoices`),
-  appIndexJs: envDevModule
+  appIndexJs: resolveApp('src/index.js'),
+  getDevAppIndex: (useDevModule) => useDevModule
     ? resolveApp(`src/modules/__dev__/index.js`)
-    : resolveApp('src/index.js'),
+    : resolveApp('src/index.js'), 
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -127,6 +128,7 @@ module.exports = {
 // @remove-on-eject-begin
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
+
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -138,9 +140,10 @@ module.exports = {
   appHtml: resolveApp('public/index.html'),
   appDevRoutes: resolveApp(`src/modules/__dev__/routeConfig.js`),
   appDevDefaultChoices: resolveApp(`src/modules/__dev__/.defaultChoices`),
-  appIndexJs: envDevModule
+  appIndexJs: resolveApp('src/index.js'),
+  getDevAppIndex: (useDevModule) => useDevModule
     ? resolveApp(`src/modules/__dev__/index.js`)
-    : resolveApp('src/index.js'),
+    : resolveApp('src/index.js'), 
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -181,9 +184,10 @@ if (
     appHtml: resolveOwn('template/public/index.html'),
     appDevRoutes: resolveApp(`template/src/modules/__dev__/routeConfig.js`),
     appDevDefaultChoices: resolveApp(`template/src/modules/__dev__/.defaultChoices`),
-    appIndexJs: envDevModule
+    appIndexJs: resolveApp('template/src/index.js'),
+    getDevAppIndex: (useDevModule) => useDevModule
       ? resolveApp(`template/src/modules/__dev__/index.js`)
-      : resolveApp('template/src/index.js'),
+      : resolveApp('template/src/index.js'), 
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
     yarnLockFile: resolveOwn('template/yarn.lock'),
