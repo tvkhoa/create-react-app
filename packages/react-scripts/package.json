@@ -17,6 +17,9 @@
     "template",
     "utils"
   ],
+  "scripts": {
+    "ehRun": "node ./scripts/eh-helper.js"
+  },
   "bin": {
     "eh-react-scripts": "./bin/react-scripts.js"
   },

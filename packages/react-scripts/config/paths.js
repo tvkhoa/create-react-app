@@ -19,7 +19,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const envPublicUrl = process.env.PUBLIC_URL;
 const customAppBuildPath = process.env.REACT_APP_APP_BUILD_PATH;
-const envDevModule = process.env.MODULE;
+const envDevModule = process.env.DEV_MODULE;
 
 function ensureSlash(inputPath, needsSlash) {
   const hasSlash = inputPath.endsWith('/');
@@ -103,8 +103,10 @@ module.exports = {
     : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
+  appDevRoutes: resolveApp(`src/modules/__dev__/routeConfig.js`),
+  appDevDefaultChoices: resolveApp(`src/modules/__dev__/.defaultChoices`),
   appIndexJs: envDevModule
-    ? resolveApp(`src/modules/${envDevModule}/dev/index.js`)
+    ? resolveApp(`src/modules/__dev__/index.js`)
     : resolveApp('src/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
@@ -134,8 +136,10 @@ module.exports = {
     : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
+  appDevRoutes: resolveApp(`src/modules/__dev__/routeConfig.js`),
+  appDevDefaultChoices: resolveApp(`src/modules/__dev__/.defaultChoices`),
   appIndexJs: envDevModule
-    ? resolveApp(`src/modules/${envDevModule}/dev/index.js`)
+    ? resolveApp(`src/modules/__dev__/index.js`)
     : resolveApp('src/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
@@ -175,8 +179,10 @@ if (
       : resolveOwn('../../build'),
     appPublic: resolveOwn('template/public'),
     appHtml: resolveOwn('template/public/index.html'),
+    appDevRoutes: resolveApp(`template/src/modules/__dev__/routeConfig.js`),
+    appDevDefaultChoices: resolveApp(`template/src/modules/__dev__/.defaultChoices`),
     appIndexJs: envDevModule
-      ? resolveApp(`template/src/modules/${envDevModule}/dev/index.js`)
+      ? resolveApp(`template/src/modules/__dev__/index.js`)
       : resolveApp('template/src/index.js'),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
