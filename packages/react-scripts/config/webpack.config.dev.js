@@ -238,7 +238,6 @@ module.exports = {
           {
             test: /\.(js|mjs|jsx)$/,
             include: paths.appSrc,
-            exclude: [/[/\\\\]node_modules[/\\\\]/],
             use: [
               require.resolve('thread-loader'),
               {
@@ -291,7 +290,10 @@ module.exports = {
           // Unlike the application JS, we only compile the standard ES features.
           {
             test: /\.(js|mjs)$/,
-            exclude: /@babel(?:\/|\\{1,2})runtime/,
+            exclude: [
+              /@babel(?:\/|\\{1,2})runtime/,
+              /[/\\\\]node_modules[/\\\\]/,
+            ],
             use: [
               {
                 loader: require.resolve('thread-loader'),
