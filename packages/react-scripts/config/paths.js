@@ -106,6 +106,7 @@ module.exports = {
   appIndexJs: envDevModule
     ? resolveApp(`src/modules/${envDevModule}/dev/index.js`)
     : resolveApp('src/index.js'),
+  appEHLegacyIndexJs: resolveApp('src/legacyIndex.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -137,6 +138,7 @@ module.exports = {
   appIndexJs: envDevModule
     ? resolveApp(`src/modules/${envDevModule}/dev/index.js`)
     : resolveApp('src/index.js'),
+  appEHLegacyIndexJs: resolveApp('src/legacyIndex.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -178,6 +180,7 @@ if (
     appIndexJs: envDevModule
       ? resolveApp(`template/src/modules/${envDevModule}/dev/index.js`)
       : resolveApp('template/src/index.js'),
+    appEHLegacyIndexJs: resolveApp('src/legacyIndex.js'),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
     yarnLockFile: resolveOwn('template/yarn.lock'),
