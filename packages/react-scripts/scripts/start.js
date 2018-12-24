@@ -33,7 +33,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const clearConsole = require('@ehrocks/react-dev-utils/clearConsole');
+// const clearConsole = require('@ehrocks/react-dev-utils/clearConsole');
 const checkRequiredFiles = require('@ehrocks/react-dev-utils/checkRequiredFiles');
 const {
   choosePort,
@@ -45,6 +45,8 @@ const openBrowser = require('@ehrocks/react-dev-utils/openBrowser');
 const paths = require('../config/paths');
 const config = require('../config/webpack.config.dev');
 const createDevServerConfig = require('../config/webpackDevServer.config');
+const Dashboard = require('webpack-dashboard');
+const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
@@ -97,6 +99,10 @@ checkBrowsers(paths.appPath, isInteractive)
     const urls = prepareUrls(protocol, HOST, mainAppPort);
     // Create a webpack compiler that is configured with custom messages.
     const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    // apply webpack-dashboard
+    var dashboard = new Dashboard();
+    compiler.apply(new DashboardPlugin(dashboard.setData));
+
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
@@ -112,7 +118,7 @@ checkBrowsers(paths.appPath, isInteractive)
         return console.log(err);
       }
       if (isInteractive) {
-        clearConsole();
+        // clearConsole();
       }
       console.log(chalk.cyan('Starting the development server...\n'));
       openBrowser(urls.localUrlForBrowser);

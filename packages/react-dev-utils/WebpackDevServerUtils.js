@@ -133,7 +133,7 @@ function createCompiler(webpack, config, appName, urls, useYarn) {
   // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
   compiler.hooks.invalid.tap('invalid', () => {
     if (isInteractive) {
-      clearConsole();
+      // clearConsole();
     }
     console.log('Compiling...');
   });
@@ -147,7 +147,7 @@ function createCompiler(webpack, config, appName, urls, useYarn) {
       (Math.abs(stats.endTime - stats.startTime) / 1000).toFixed(2)
     );
     if (isInteractive) {
-      clearConsole();
+      // clearConsole();
     }
 
     // We have switched off the default Webpack output in WebpackDevServer
@@ -366,7 +366,7 @@ function choosePort(host, defaultPort) {
             ? `Admin permissions are required to run a server on a port below 1024.`
             : `Something is already running on port ${defaultPort}.`;
         if (isInteractive) {
-          clearConsole();
+          // clearConsole();
           const existingProcess = getProcessForPort(defaultPort);
           const question = {
             type: 'confirm',
