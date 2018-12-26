@@ -22,6 +22,7 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleNotFoundPlugin = require('@ehrocks/react-dev-utils/ModuleNotFoundPlugin');
+
 // @remove-on-eject-begin
 const getCacheIdentifier = require('@ehrocks/react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
@@ -102,7 +103,9 @@ module.exports = {
     require.resolve('webpack/hot/dev-server'),
     // require.resolve('@ehrocks/react-dev-utils/webpackHotDevClient'),
     // Finally, this is your app's code:
-    paths.appIndexJs,
+    // We need to choose dev path when we start, that's why we leave it empty here.
+    // We set it in start script
+    // paths.appIndexJs,
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.

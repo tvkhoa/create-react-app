@@ -19,7 +19,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 const envPublicUrl = process.env.PUBLIC_URL;
 const customAppBuildPath = process.env.REACT_APP_APP_BUILD_PATH;
-const envDevModule = process.env.MODULE;
+const envDevModule = process.env.DEV_MODULE;
 
 function ensureSlash(inputPath, needsSlash) {
   const hasSlash = inputPath.endsWith('/');
@@ -103,9 +103,12 @@ module.exports = {
     : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: envDevModule
-    ? resolveApp(`src/modules/${envDevModule}/dev/index.js`)
-    : resolveApp('src/index.js'),
+  appDevRoutes: resolveApp(`src/modules/__dev__/routeConfig.js`),
+  appDevDefaultChoices: resolveApp(`src/modules/__dev__/.defaultChoices`),
+  appIndexJs: resolveApp('src/index.js'),
+  getDevAppIndex: (useDevModule) => useDevModule
+    ? resolveApp(`src/modules/__dev__/index.js`)
+    : resolveApp('src/index.js'), 
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -125,6 +128,7 @@ module.exports = {
 // @remove-on-eject-begin
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
+
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -134,9 +138,12 @@ module.exports = {
     : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: envDevModule
-    ? resolveApp(`src/modules/${envDevModule}/dev/index.js`)
-    : resolveApp('src/index.js'),
+  appDevRoutes: resolveApp(`src/modules/__dev__/routeConfig.js`),
+  appDevDefaultChoices: resolveApp(`src/modules/__dev__/.defaultChoices`),
+  appIndexJs: resolveApp('src/index.js'),
+  getDevAppIndex: (useDevModule) => useDevModule
+    ? resolveApp(`src/modules/__dev__/index.js`)
+    : resolveApp('src/index.js'), 
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -175,9 +182,12 @@ if (
       : resolveOwn('../../build'),
     appPublic: resolveOwn('template/public'),
     appHtml: resolveOwn('template/public/index.html'),
-    appIndexJs: envDevModule
-      ? resolveApp(`template/src/modules/${envDevModule}/dev/index.js`)
-      : resolveApp('template/src/index.js'),
+    appDevRoutes: resolveApp(`template/src/modules/__dev__/routeConfig.js`),
+    appDevDefaultChoices: resolveApp(`template/src/modules/__dev__/.defaultChoices`),
+    appIndexJs: resolveApp('template/src/index.js'),
+    getDevAppIndex: (useDevModule) => useDevModule
+      ? resolveApp(`template/src/modules/__dev__/index.js`)
+      : resolveApp('template/src/index.js'), 
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn('template/src'),
     yarnLockFile: resolveOwn('template/yarn.lock'),
