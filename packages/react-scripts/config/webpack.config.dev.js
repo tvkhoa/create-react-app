@@ -25,6 +25,7 @@ const ModuleNotFoundPlugin = require('@ehrocks/react-dev-utils/ModuleNotFoundPlu
 // @remove-on-eject-begin
 const getCacheIdentifier = require('@ehrocks/react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
+const { DuplicatesPlugin } = require('inspectpack/plugin');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -450,6 +451,12 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
       publicPath: publicPath,
+    }),
+    new DuplicatesPlugin({
+      // Emit compilation warning or error? (Default: `false`)
+      emitErrors: false,
+      // Display full duplicates information? (Default: `false`)
+      verbose: true,
     }),
   ],
 
