@@ -103,6 +103,11 @@ function reactScriptStart(useDevModule) {
       // Add app entry to config
       config.entry.push(paths.getDevAppIndex(useDevModule));
       const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+
+      // apply webpack-dashboard
+      const dashboard = new Dashboard();
++     compiler.apply(new DashboardPlugin(dashboard.setData));
+
       // Load proxy config
       const proxySetting = require(paths.appPackageJson).proxy;
       const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
