@@ -1,6 +1,6 @@
 {
   "name": "eh-react-scripts",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -67,6 +67,7 @@
     "thread-loader": "^2.0.0",
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
+    "webpack-deadcode-plugin": "^0.1.11",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.2"

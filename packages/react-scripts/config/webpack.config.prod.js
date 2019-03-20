@@ -29,6 +29,8 @@ const ModuleNotFoundPlugin = require('@ehrocks/react-dev-utils/ModuleNotFoundPlu
 const getCacheIdentifier = require('@ehrocks/react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
 
+const DeadCodePlugin = require('webpack-deadcode-plugin');
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -543,7 +545,17 @@ module.exports = {
         new RegExp('/[^/]+\\.[^/]+$'),
       ],
     }),
-  ],
+    // EH Custom
+    process.env.CHECK_DEADCODE
+      ? new DeadCodePlugin({
+          patterns: ['src/modules/**/*.(js|jsx|css)'],
+          exclude: [
+            '**/*.(stories|spec|test|snap).(js|jsx)',
+            '**/(__template_|__mocks__|__mockData__|__tests__|test-helper|__testData__)/**',
+          ],
+        })
+      : null,
+  ].filter(Boolean),
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {
