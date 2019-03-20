@@ -548,10 +548,10 @@ module.exports = {
     // EH Custom
     process.env.CHECK_DEADCODE
       ? new DeadCodePlugin({
-          patterns: ['src/**/*.(js|jsx|css)'],
+          patterns: ['src/modules/**/*.(js|jsx|css)'],
           exclude: [
             '**/*.(stories|spec|test|snap).(js|jsx)',
-            '**/(__template_|__mocks__|__mockData__|__tests__|test-helper)/*',
+            '**/(__template_|__mocks__|__mockData__|__tests__|test-helper|__testData__)/**',
           ],
         })
       : null,
