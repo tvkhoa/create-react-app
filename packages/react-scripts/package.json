@@ -21,6 +21,7 @@
     "eh-react-scripts": "./bin/react-scripts.js"
   },
   "dependencies": {
+    "hard-source-webpack-plugin": "^0.13.1",
     "@babel/core": "7.1.0",
     "@ehrocks/eslint-config-react-app": "^3.0.3",
     "@ehrocks/react-dev-utils": "^6.0.4",
