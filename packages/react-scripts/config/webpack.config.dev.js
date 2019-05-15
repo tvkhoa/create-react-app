@@ -18,12 +18,13 @@ const WatchMissingNodeModulesPlugin = require('@ehrocks/react-dev-utils/WatchMis
 const ModuleScopePlugin = require('@ehrocks/react-dev-utils/ModuleScopePlugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const getCSSModuleLocalIdent = require('@ehrocks/react-dev-utils/getCSSModuleLocalIdent');
-const AutoDllPlugin = require('autodll-webpack-plugin');
-const defaults = require('lodash.defaults');
+// const AutoDllPlugin = require('autodll-webpack-plugin');
+// const defaults = require('lodash.defaults');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleNotFoundPlugin = require('@ehrocks/react-dev-utils/ModuleNotFoundPlugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 // @remove-on-eject-begin
 const getCacheIdentifier = require('@ehrocks/react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
@@ -44,7 +45,7 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
-const dllConfig = require(paths.appPackageJson).dll || { entry: {} };
+// const dllConfig = require(paths.appPackageJson).dll || { entry: {} };
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -86,6 +87,8 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
 // The production configuration is different and lives in a separate file.
 module.exports = {
   mode: 'development',
+  context: paths.appPath,
+  target: 'web',
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebook/create-react-app/issues/343
   devtool: process.env.BOOST ? 'eval' : 'cheap-module-source-map', // EH custom
@@ -116,9 +119,6 @@ module.exports = {
     pathinfo: process.env.BOOST ? false : true, // EH custom
 
     // Export to lib
-    library: paths.libName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true,
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
@@ -414,14 +414,14 @@ module.exports = {
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
     // Generates an `index.html` file with the <script> injected.
-    new AutoDllPlugin({
-      context: paths.appPath,
-      path: './dll',
-      filename: '[name].js',
-      entry: defaults(dllConfig.entry, {
-        vendor: ['react', 'react-dom'],
-      }),
-    }),
+    // new AutoDllPlugin({
+    //   context: paths.appPath,
+    //   path: './dll',
+    //   filename: '[name].js',
+    //   entry: defaults(dllConfig.entry, {
+    //     vendor: ['react', 'react-dom'],
+    //   }),
+    // }),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
     new ModuleNotFoundPlugin(paths.appPath),
