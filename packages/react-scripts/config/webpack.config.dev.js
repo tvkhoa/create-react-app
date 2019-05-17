@@ -18,13 +18,10 @@ const WatchMissingNodeModulesPlugin = require('@ehrocks/react-dev-utils/WatchMis
 const ModuleScopePlugin = require('@ehrocks/react-dev-utils/ModuleScopePlugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const getCSSModuleLocalIdent = require('@ehrocks/react-dev-utils/getCSSModuleLocalIdent');
-// const AutoDllPlugin = require('autodll-webpack-plugin');
-// const defaults = require('lodash.defaults');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const ModuleNotFoundPlugin = require('@ehrocks/react-dev-utils/ModuleNotFoundPlugin');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 // @remove-on-eject-begin
 const getCacheIdentifier = require('@ehrocks/react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
@@ -46,6 +43,10 @@ const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // const dllConfig = require(paths.appPackageJson).dll || { entry: {} };
+
+const indexEntry = process.env.MODULE_PLUGIN
+  ? `${paths.appSrc}/dev/index`
+  : paths.appIndexJs;
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
@@ -109,7 +110,7 @@ module.exports = {
     require.resolve('webpack/hot/dev-server'),
     // require.resolve('@ehrocks/react-dev-utils/webpackHotDevClient'),
     // Finally, this is your app's code:
-    paths.appIndexJs,
+    indexEntry,
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
@@ -119,6 +120,9 @@ module.exports = {
     pathinfo: process.env.BOOST ? false : true, // EH custom
 
     // Export to lib
+    library: process.env.MODULE_PLUGIN ? 'khoathai' : undefined,
+    libraryTarget: process.env.MODULE_PLUGIN ? 'umd' : undefined,
+    umdNamedDefine: process.env.MODULE_PLUGIN ? true : undefined,
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
@@ -406,22 +410,12 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
     }),
-    // Hard source plugin for cahching
-    new HardSourceWebpackPlugin(),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
     // Generates an `index.html` file with the <script> injected.
-    // new AutoDllPlugin({
-    //   context: paths.appPath,
-    //   path: './dll',
-    //   filename: '[name].js',
-    //   entry: defaults(dllConfig.entry, {
-    //     vendor: ['react', 'react-dom'],
-    //   }),
-    // }),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
     new ModuleNotFoundPlugin(paths.appPath),

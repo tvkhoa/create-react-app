@@ -21,7 +21,6 @@
     "eh-react-scripts": "./bin/react-scripts.js"
   },
   "dependencies": {
-    "hard-source-webpack-plugin": "^0.13.1",
     "@babel/core": "7.1.0",
     "@ehrocks/eslint-config-react-app": "^3.0.3",
     "@ehrocks/react-dev-utils": "^6.0.4",
@@ -69,7 +68,7 @@
     "url-loader": "1.1.1",
     "webpack": "4.19.1",
     "webpack-deadcode-plugin": "^0.1.11",
-    "webpack-dev-server": "3.1.9",
+    "webpack-dev-server": "3.1.14",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.2"
   },
