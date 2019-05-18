@@ -17,7 +17,7 @@ const InterpolateHtmlPlugin = require('@ehrocks/react-dev-utils/InterpolateHtmlP
 const WatchMissingNodeModulesPlugin = require('@ehrocks/react-dev-utils/WatchMissingNodeModulesPlugin');
 const ModuleScopePlugin = require('@ehrocks/react-dev-utils/ModuleScopePlugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const getCSSModuleLocalIdent = require('@ehrocks/react-dev-utils/getCSSModuleLocalIdent');
+// const getCSSModuleLocalIdent = require('@ehrocks/react-dev-utils/getCSSModuleLocalIdent');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -38,9 +38,9 @@ const env = getClientEnvironment(publicUrl);
 
 // style files regexes
 const cssRegex = /\.css$/;
-const cssModuleRegex = /\.module\.css$/;
-const sassRegex = /\.(scss|sass)$/;
-const sassModuleRegex = /\.module\.(scss|sass)$/;
+// const cssModuleRegex = /\.module\.css$/;
+// const sassRegex = /\.(scss|sass)$/;
+// const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 // const dllConfig = require(paths.appPackageJson).dll || { entry: {} };
 
@@ -56,26 +56,26 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       loader: require.resolve('css-loader'),
       options: cssOptions,
     },
-    {
-      // Options for PostCSS as we reference these options twice
-      // Adds vendor prefixing based on your specified browser support in
-      // package.json
-      loader: require.resolve('postcss-loader'),
-      options: {
-        // Necessary for external CSS imports to work
-        // https://github.com/facebook/create-react-app/issues/2677
-        ident: 'postcss',
-        plugins: () => [
-          require('postcss-flexbugs-fixes'),
-          require('postcss-preset-env')({
-            autoprefixer: {
-              flexbox: 'no-2009',
-            },
-            stage: 3,
-          }),
-        ],
-      },
-    },
+    // {
+    // // Options for PostCSS as we reference these options twice
+    // // Adds vendor prefixing based on your specified browser support in
+    // // package.json
+    // loader: require.resolve('postcss-loader'),
+    // options: {
+    // // Necessary for external CSS imports to work
+    // // https://github.com/facebook/create-react-app/issues/2677
+    // ident: 'postcss',
+    // plugins: () => [
+    // require('postcss-flexbugs-fixes'),
+    // require('postcss-preset-env')({
+    // autoprefixer: {
+    // flexbox: 'no-2009',
+    // },
+    // stage: 3,
+    // }),
+    // ],
+    // },
+    // },
   ];
   if (preProcessor) {
     loaders.push(require.resolve(preProcessor));
@@ -344,44 +344,44 @@ module.exports = {
           // By default we support CSS Modules with the extension .module.css
           {
             test: cssRegex,
-            exclude: cssModuleRegex,
+            // exclude: cssModuleRegex,
             use: getStyleLoaders({
               importLoaders: 1,
             }),
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
           // using the extension .module.css
-          {
-            test: cssModuleRegex,
-            use: getStyleLoaders({
-              importLoaders: 1,
-              modules: true,
-              getLocalIdent: getCSSModuleLocalIdent,
-            }),
-          },
+          // {
+          // test: cssModuleRegex,
+          // use: getStyleLoaders({
+          // importLoaders: 1,
+          // modules: true,
+          // getLocalIdent: getCSSModuleLocalIdent,
+          // }),
+          // },
           // Opt-in support for SASS (using .scss or .sass extensions).
           // Chains the sass-loader with the css-loader and the style-loader
           // to immediately apply all styles to the DOM.
           // By default we support SASS Modules with the
           // extensions .module.scss or .module.sass
-          {
-            test: sassRegex,
-            exclude: sassModuleRegex,
-            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
-          },
+          // {
+          // test: sassRegex,
+          // exclude: sassModuleRegex,
+          // use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+          // },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
-          {
-            test: sassModuleRegex,
-            use: getStyleLoaders(
-              {
-                importLoaders: 2,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-              },
-              'sass-loader'
-            ),
-          },
+          // {
+          // test: sassModuleRegex,
+          // use: getStyleLoaders(
+          // {
+          // importLoaders: 2,
+          // modules: true,
+          // getLocalIdent: getCSSModuleLocalIdent,
+          // },
+          // 'sass-loader'
+          // ),
+          // },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
