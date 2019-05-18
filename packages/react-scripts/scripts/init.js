@@ -92,6 +92,7 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
+    startModules: 'react-scripts startModules',
     startCache: 'react-scripts startCache',
     start: 'react-scripts start',
     build: 'react-scripts build',

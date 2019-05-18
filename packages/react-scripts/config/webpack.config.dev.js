@@ -45,7 +45,7 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 // const dllConfig = require(paths.appPackageJson).dll || { entry: {} };
 
 const indexEntry = process.env.MODULE_PLUGIN
-  ? `${paths.appSrc}/dev/index`
+  ? `${paths.appPath}/__dev__/index`
   : paths.appIndexJs;
 
 // common function to get style loaders
@@ -120,7 +120,7 @@ module.exports = {
     pathinfo: process.env.BOOST ? false : true, // EH custom
 
     // Export to lib
-    library: process.env.MODULE_PLUGIN ? 'khoathai' : undefined,
+    library: process.env.MODULE_PLUGIN ? 'ehDevModule' : undefined,
     libraryTarget: process.env.MODULE_PLUGIN ? 'umd' : undefined,
     umdNamedDefine: process.env.MODULE_PLUGIN ? true : undefined,
     // This does not produce a real file. It's just the virtual path that is
