@@ -18,7 +18,6 @@ const WatchMissingNodeModulesPlugin = require('@ehrocks/react-dev-utils/WatchMis
 const ModuleScopePlugin = require('@ehrocks/react-dev-utils/ModuleScopePlugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 // const getCSSModuleLocalIdent = require('@ehrocks/react-dev-utils/getCSSModuleLocalIdent');
-const AutoDllPlugin = require('autodll-webpack-plugin');
 const defaults = require('lodash.defaults');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
@@ -411,15 +410,6 @@ module.exports = {
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
-    // Generates an `index.html` file with the <script> injected.
-    new AutoDllPlugin({
-      context: paths.appPath,
-      path: './dll',
-      filename: '[name].js',
-      entry: defaults(dllConfig.entry, {
-        vendor: ['react', 'react-dom'],
-      }),
-    }),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
     new ModuleNotFoundPlugin(paths.appPath),
