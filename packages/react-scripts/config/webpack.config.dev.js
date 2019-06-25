@@ -18,7 +18,6 @@ const WatchMissingNodeModulesPlugin = require('@ehrocks/react-dev-utils/WatchMis
 const ModuleScopePlugin = require('@ehrocks/react-dev-utils/ModuleScopePlugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 // const getCSSModuleLocalIdent = require('@ehrocks/react-dev-utils/getCSSModuleLocalIdent');
-const defaults = require('lodash.defaults');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -42,8 +41,6 @@ const cssRegex = /\.css$/;
 // const cssModuleRegex = /\.module\.css$/;
 // const sassRegex = /\.(scss|sass)$/;
 // const sassModuleRegex = /\.module\.(scss|sass)$/;
-
-const dllConfig = require(paths.appPackageJson).dll || { entry: {} };
 
 // common function to get style loaders
 const getStyleLoaders = (cssOptions, preProcessor) => {
