@@ -64,7 +64,7 @@ module.exports = function(webpackEnv) {
   // EH Custom: Local host public path
   const publicPath = isEnvProduction
     ? paths.servedPath
-    : isEnvDevelopment && 'http://localhost:8010';
+    : isEnvDevelopment && 'http://localhost:8010/';
   // Some apps do not use client-side routing with pushState.
   // For these, "homepage" can be set to "." to enable relative asset paths.
   const shouldUseRelativeAssetPaths = publicPath === './';
