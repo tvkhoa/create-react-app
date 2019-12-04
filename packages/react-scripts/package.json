@@ -1,6 +1,6 @@
 {
   "name": "eh-react-scripts",
-  "version": "2.0.12-beta10",
+  "version": "2.0.12-beta20",
   "description": "Configuration and scripts for Create React App.",
   "repository": "facebook/create-react-app",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@babel/core": "7.1.0",
-    "@ehrocks/eslint-config-react-app": "^3.0.3",
+    "@ehrocks/eslint-config-react-app": "^3.0.4",
     "@ehrocks/react-dev-utils": "^6.0.4",
     "@svgr/webpack": "2.4.1",
     "babel-core": "7.0.0-bridge.0",
