@@ -15,7 +15,7 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
-const spawn = require('@ehrocks/react-dev-utils/crossSpawn');
+const spawn = require('react-dev-utils/crossSpawn');
 const args = process.argv.slice(2);
 
 const scriptIndex = args.findIndex(
@@ -59,7 +59,7 @@ switch (script) {
     console.log('Unknown script "' + script + '".');
     console.log('Perhaps you need to update react-scripts?');
     console.log(
-      'See: https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#updating-to-new-releases'
+      'See: https://facebook.github.io/create-react-app/docs/updating-to-new-releases'
     );
     break;
 }

@@ -22,25 +22,27 @@ process.on('unhandledRejection', err => {
 // Ensure environment variables are read.
 require('../config/env');
 // @remove-on-eject-begin
-// Do the preflight check (only happens before eject).
+// Do the preflight checks (only happens before eject).
 const verifyPackageTree = require('./utils/verifyPackageTree');
 if (process.env.SKIP_PREFLIGHT_CHECK !== 'true') {
   verifyPackageTree();
 }
+const verifyTypeScriptSetup = require('./utils/verifyTypeScriptSetup');
+verifyTypeScriptSetup();
 // @remove-on-eject-end
 
 const path = require('path');
-const chalk = require('chalk');
+const chalk = require('react-dev-utils/chalk');
 const fs = require('fs-extra');
 const webpack = require('webpack');
 const bfj = require('bfj');
-const config = require('../config/webpack.config.prod');
+const configFactory = require('../config/webpack.config');
 const paths = require('../config/paths');
-const checkRequiredFiles = require('@ehrocks/react-dev-utils/checkRequiredFiles');
-const formatWebpackMessages = require('@ehrocks/react-dev-utils/formatWebpackMessages');
-const printHostingInstructions = require('@ehrocks/react-dev-utils/printHostingInstructions');
-const FileSizeReporter = require('@ehrocks/react-dev-utils/FileSizeReporter');
-const printBuildError = require('@ehrocks/react-dev-utils/printBuildError');
+const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
+const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
+const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
+const printBuildError = require('react-dev-utils/printBuildError');
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -62,9 +64,12 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const argv = process.argv.slice(2);
 const writeStatsJson = argv.indexOf('--stats') !== -1;
 
-// We require that you explictly set browsers and do not fall back to
+// Generate configuration
+const config = configFactory('production');
+
+// We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
-const { checkBrowsers } = require('@ehrocks/react-dev-utils/browsersHelper');
+const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
     // First, read the current file sizes in build directory.
