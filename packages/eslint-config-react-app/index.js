@@ -119,7 +119,8 @@ module.exports = {
   rules: {
     // http://eslint.org/docs/rules/
     'array-callback-return': 'warn',
-    'default-case': ['warn', { commentPattern: '^no default$' }],
+    // EH Custom
+    // 'default-case': ['warn', { commentPattern: '^no default$' }],
     'dot-location': ['warn', 'property'],
     eqeqeq: ['warn', 'smart'],
     'new-parens': 'warn',
@@ -259,7 +260,7 @@ module.exports = {
     'react/forbid-foreign-prop-types': ['warn', { allowInPropTypes: true }],
     'react/jsx-no-comment-textnodes': 'warn',
     'react/jsx-no-duplicate-props': 'warn',
-    'react/jsx-no-target-blank': 'warn',
+    'react/jsx-no-target-blank': 0,
     'react/jsx-no-undef': 'error',
     'react/jsx-pascal-case': [
       'warn',
@@ -286,12 +287,7 @@ module.exports = {
     'jsx-a11y/accessible-emoji': 'warn',
     'jsx-a11y/alt-text': 'warn',
     'jsx-a11y/anchor-has-content': 'warn',
-    'jsx-a11y/anchor-is-valid': [
-      'warn',
-      {
-        aspects: ['noHref', 'invalidHref'],
-      },
-    ],
+    'jsx-a11y/anchor-is-valid': 0,
     'jsx-a11y/aria-activedescendant-has-tabindex': 'warn',
     'jsx-a11y/aria-props': 'warn',
     'jsx-a11y/aria-proptypes': 'warn',

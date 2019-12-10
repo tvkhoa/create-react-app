@@ -1,5 +1,5 @@
 {
-  "name": "react-scripts",
+  "name": "eh-react-scripts",
   "version": "3.3.0",
   "description": "Configuration and scripts for Create React App.",
   "repository": {
@@ -24,12 +24,13 @@
     "utils"
   ],
   "bin": {
-    "react-scripts": "./bin/react-scripts.js"
+    "eh-react-scripts": "./bin/react-scripts.js"
   },
   "types": "./lib/react-app.d.ts",
   "dependencies": {
     "@babel/core": "7.7.5",
     "@svgr/webpack": "4.3.3",
+    "@ehrocks/eslint-config-react-app": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "10.0.3",

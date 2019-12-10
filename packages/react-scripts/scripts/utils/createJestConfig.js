@@ -34,10 +34,12 @@ module.exports = (resolve, rootDir, isEjecting) => {
     ],
 
     setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : [],
-    testMatch: [
-      '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
-      '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
-    ],
+    testMatch: process.env.TEST_MATCH
+      ? [process.env.TEST_MATCH]
+      : [
+          '<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}',
+          '<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}',
+        ],
     testEnvironment: 'jest-environment-jsdom-fourteen',
     transform: {
       '^.+\\.(js|jsx|ts|tsx)$': isEjecting

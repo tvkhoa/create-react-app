@@ -59,6 +59,8 @@ const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
 
+const disabledChunkHash = !!process.env.DISABLED_CHUNK_HASH;
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function(webpackEnv) {
@@ -73,9 +75,10 @@ module.exports = function(webpackEnv) {
   // Webpack uses `publicPath` to determine where the app is being served from.
   // It requires a trailing slash, or the file assets will get an incorrect path.
   // In development, we always serve from the root. This makes config easier.
+  // EH Custom: Local host public path
   const publicPath = isEnvProduction
     ? paths.servedPath
-    : isEnvDevelopment && '/';
+    : isEnvDevelopment && 'http://localhost:8010/';
   // Some apps do not use client-side routing with pushState.
   // For these, "homepage" can be set to "." to enable relative asset paths.
   const shouldUseRelativeAssetPaths = publicPath === './';
@@ -183,15 +186,18 @@ module.exports = function(webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].js'
-        : isEnvDevelopment && 'static/js/bundle.js',
+      filename:
+        isEnvProduction && !disabledChunkHash
+          ? 'static/js/[name].[contenthash:8].js'
+          : isEnvDevelopment && 'static/js/bundle.js',
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
-      chunkFilename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].chunk.js'
-        : isEnvDevelopment && 'static/js/[name].chunk.js',
+      // EH Custom
+      chunkFilename:
+        isEnvProduction && !disabledChunkHash
+          ? 'static/js/[name].[contenthash:8].chunk.js'
+          : isEnvDevelopment && 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
       publicPath: publicPath,
@@ -279,7 +285,7 @@ module.exports = function(webpackEnv) {
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
       splitChunks: {
         chunks: 'all',
-        name: false,
+        name: true, // EH Custom
       },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
@@ -580,6 +586,7 @@ module.exports = function(webpackEnv) {
       ],
     },
     plugins: [
+      new webpack.HashedModuleIdsPlugin(), // EH Custom
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(
@@ -640,12 +647,17 @@ module.exports = function(webpackEnv) {
       // See https://github.com/facebook/create-react-app/issues/186
       isEnvDevelopment &&
         new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+      // EH Custom
       isEnvProduction &&
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: 'static/css/[name].[contenthash:8].css',
-          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+          filename: !disabledChunkHash
+            ? 'static/css/[name].[contenthash:8].css'
+            : 'static/css/[name].css',
+          chunkFilename: !disabledChunkHash
+            ? 'static/css/[name].[contenthash:8].chunk.css'
+            : 'static/css/[name].chunk.css',
         }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
