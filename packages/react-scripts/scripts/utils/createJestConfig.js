@@ -23,7 +23,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
     : undefined;
 
   const config = {
-    roots: ['<rootDir>/src'],
+    // Fix https://github.com/facebook/create-react-app/issues/7539
+    // roots: ['<rootDir>/src'],
 
     collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
 
