@@ -1,6 +1,6 @@
 {
   "name": "eh-react-scripts",
-  "version": "3.3.0-alpha1",
+  "version": "3.3.0-alpha2",
   "description": "Configuration and scripts for Create React App.",
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
   "dependencies": {
     "@babel/core": "7.7.5",
     "@svgr/webpack": "4.3.3",
-    "@ehrocks/eslint-config-react-app": "^5.1.0",
+    "eslint-config-react-app": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "10.0.3",
