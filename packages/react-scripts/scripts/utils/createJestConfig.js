@@ -24,7 +24,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
 
   const config = {
     // Fix https://github.com/facebook/create-react-app/issues/7539
-    // roots: ['<rootDir>/src'],
+    roots: ['<rootDir>/src', '<rootDir>/__mocks__'],
 
     collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}', '!src/**/*.d.ts'],
 
