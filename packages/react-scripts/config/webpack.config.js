@@ -187,18 +187,16 @@ module.exports = function(webpackEnv) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       // EH Custom
-      filename:
-        isEnvProduction && !disabledChunkHash
-          ? 'static/js/[name].[contenthash:8].js'
-          : 'static/js/bundle.js',
+      filename: isEnvDevelopment
+        ? 'static/js/bundle.js'
+        : `static/js/[name]${disabledChunkHash ? '' : '.[contenthash:8]'}.js`,
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
       // EH Custom
-      chunkFilename:
-        isEnvProduction && !disabledChunkHash
-          ? 'static/js/[name].[contenthash:8].chunk.js'
-          : 'static/js/[name].chunk.js',
+      chunkFilename: disabledChunkHash
+        ? 'static/js/[name].chunk.js'
+        : 'static/js/[name].[contenthash:8].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
       publicPath: publicPath,
@@ -292,7 +290,8 @@ module.exports = function(webpackEnv) {
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
       runtimeChunk: {
-        name: entrypoint => `runtime-${entrypoint.name}`,
+        // EH Custom
+        name: entrypoint => `runtime~${entrypoint.name}`,
       },
     },
     resolve: {
@@ -619,7 +618,8 @@ module.exports = function(webpackEnv) {
       // https://github.com/facebook/create-react-app/issues/5358
       isEnvProduction &&
         shouldInlineRuntimeChunk &&
-        new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
+        // EH Custom
+        new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
       // Makes some environment variables available in index.html.
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
