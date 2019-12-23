@@ -345,7 +345,8 @@ module.exports = function(webpackEnv) {
       strictExportPresence: true,
       rules: [
         // Disable require.ensure as it's not a standard language feature.
-        { parser: { requireEnsure: false } },
+        // EH Custom: https://github.com/webpack/webpack/issues/3017#issuecomment-285954512
+        { parser: { requireEnsure: false, amd: false } },
 
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
