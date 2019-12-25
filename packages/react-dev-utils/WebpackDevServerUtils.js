@@ -165,6 +165,11 @@ function createCompiler({
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
   compiler.hooks.done.tap('done', async stats => {
+    // EH Custom
+    const compileTime = parseFloat(
+      (Math.abs(stats.endTime - stats.startTime) / 1000).toFixed(2)
+    );
+    // EH End Custom
     if (isInteractive) {
       clearConsole();
     }
@@ -225,7 +230,12 @@ function createCompiler({
     const messages = formatWebpackMessages(statsData);
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
     if (isSuccessful) {
-      console.log(chalk.green('Compiled successfully!'));
+      // EH Custom
+      // console.log(chalk.green('Compiled successfully!'));
+      console.log(
+        chalk.green('🍓🍓🍓 Compiled successfully in ' + compileTime + 's!')
+      );
+      // EH End Custom
     }
     if (isSuccessful && (isInteractive || isFirstCompile)) {
       printInstructions(appName, urls, useYarn);
@@ -246,7 +256,12 @@ function createCompiler({
 
     // Show warnings if no errors were found.
     if (messages.warnings.length) {
-      console.log(chalk.yellow('Compiled with warnings.\n'));
+      // EH Custom
+      // console.log(chalk.yellow('Compiled with warnings.\n'));
+      console.log(
+        chalk.yellow('💔💔💔 Compiled in ' + compileTime + 's with warnings.\n')
+      );
+      // EH End Custom
       console.log(messages.warnings.join('\n\n'));
 
       // Teach some ESLint tricks.
