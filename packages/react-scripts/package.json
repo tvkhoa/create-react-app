@@ -1,6 +1,6 @@
 {
   "name": "eh-react-scripts",
-  "version": "3.3.0-1",
+  "version": "3.3.0-8",
   "description": "Configuration and scripts for Create React App.",
   "repository": {
     "type": "git",
@@ -30,7 +30,6 @@
   "dependencies": {
     "@babel/core": "7.7.5",
     "@svgr/webpack": "4.3.3",
-    "eslint-config-react-app": "^5.1.0",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "10.0.3",
@@ -68,7 +67,7 @@
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
     "react-app-polyfill": "^1.0.5",
-    "react-dev-utils": "^10.0.0",
+    "@ehrocks/react-dev-utils": "^10.0.1",
     "resolve": "1.13.1",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.0",
