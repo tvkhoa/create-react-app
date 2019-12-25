@@ -171,8 +171,12 @@ module.exports = function(webpackEnv) {
       // the line below with these two lines if you prefer the stock client:
       // require.resolve('webpack-dev-server/client') + '?/',
       // require.resolve('webpack/hot/dev-server'),
+      // EH-Custom
       isEnvDevelopment &&
-        require.resolve('react-dev-utils/webpackHotDevClient'),
+        require.resolve('webpack-dev-server/client') +
+          '?http://localhost:8010/',
+      // EH-Custom
+      isEnvDevelopment && require.resolve('webpack/hot/dev-server'),
       // Finally, this is your app's code:
       paths.appIndexJs,
       // We include the app code last so that if there is a runtime error during
@@ -461,7 +465,8 @@ module.exports = function(webpackEnv) {
             },
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
-            {
+            // EH Custom
+            isEnvProduction && {
               test: /\.(js|mjs)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve('babel-loader'),
@@ -582,7 +587,7 @@ module.exports = function(webpackEnv) {
             },
             // ** STOP ** Are you adding a new loader?
             // Make sure to add the new loader(s) before the "file" loader.
-          ],
+          ].filter(Boolean), // EH Custom
         },
       ],
     },
