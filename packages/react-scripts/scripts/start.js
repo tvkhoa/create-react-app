@@ -144,7 +144,12 @@ checkBrowsers(paths.appPath, isInteractive)
         console.log();
       }
 
-      console.log(chalk.cyan('Starting the development server...\n'));
+      // EH Custom: J4F
+      console.log(
+        chalk.cyan(
+          process.env.DEV_COFFEINE_MSG || 'Starting the development server...\n'
+        )
+      );
       openBrowser(urls.localUrlForBrowser);
     });
 
