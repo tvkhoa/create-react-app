@@ -10,7 +10,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const paths = require('./paths');
+const chalk = require('@ehrocks/react-dev-utils/chalk');
+// const paths = require('./paths');
 
 // Make sure that including paths.js after env.js will read .env variables.
 delete require.cache[require.resolve('./paths')];
@@ -22,16 +23,21 @@ if (!NODE_ENV) {
   );
 }
 
+// EH Custom: Ensure env file is provided
+if (!process.env.DOTENV) {
+  console.log(
+    chalk.red(
+      'Missing env DOTENV configuration: Contact @fe-platform for detail!'
+    )
+  );
+  process.exit(0);
+}
+
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
-  `${paths.dotenv}.${NODE_ENV}.local`,
-  `${paths.dotenv}.${NODE_ENV}`,
-  // Don't include `.env.local` for `test` environment
-  // since normally you expect tests to produce the same
-  // results for everyone
-  NODE_ENV !== 'test' && `${paths.dotenv}.local`,
-  paths.dotenv,
-].filter(Boolean);
+  // EH Custom: Single env file input
+  process.env.DOTENV,
+];
 
 console.log('dotenvFiles', dotenvFiles);
 // Load environment variables from .env* files. Suppress warnings using silent
