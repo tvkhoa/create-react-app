@@ -92,7 +92,7 @@ function getExportServedPath(appPackageJson, isProduction) {
 const getLibName = appPackageJson => {
   const name = normalizeName(getName(appPackageJson));
   return camelize(name);
-}
+};
 
 const moduleFileExtensions = [
   'web.mjs',
@@ -130,9 +130,12 @@ module.exports = {
     : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: envDevModule ? resolveModule(resolveApp, `src/modules/${envDevModule}/dev/index.js`) : resolveModule(resolveApp, 'src/index'),
+  appIndexJs: envDevModule
+    ? resolveModule(resolveApp, `src/modules/${envDevModule}/dev/index.js`)
+    : resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
+  appPackages: resolveApp('src/packages'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -161,9 +164,12 @@ module.exports = {
     : resolveApp('build'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: envDevModule ? resolveModule(resolveApp, `src/modules/${envDevModule}/dev/index.js`) : resolveModule(resolveApp, 'src/index'),
+  appIndexJs: envDevModule
+    ? resolveModule(resolveApp, `src/modules/${envDevModule}/dev/index.js`)
+    : resolveModule(resolveApp, 'src/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
+  appPackages: resolveApp('src/packages'),
   appTsConfig: resolveApp('tsconfig.json'),
   appJsConfig: resolveApp('jsconfig.json'),
   yarnLockFile: resolveApp('yarn.lock'),
@@ -201,16 +207,19 @@ if (
     dotenv: resolveOwn(`${templatePath}/.env`),
     appPath: resolveApp('.'),
     appBuild: customAppBuildPath
-    ? resolveOwn(`../../${customAppBuildPath}`)
-    : resolveOwn('../../build'),
+      ? resolveOwn(`../../${customAppBuildPath}`)
+      : resolveOwn('../../build'),
     appPublic: resolveOwn(`${templatePath}/public`),
     appHtml: resolveOwn(`${templatePath}/public/index.html`),
     appIndexJs: resolveModule(
       resolveOwn,
-      envDevModule ? `${templatePath}/src/modules/${envDevModule}/dev/index.js` : `${templatePath}/src/index`
+      envDevModule
+        ? `${templatePath}/src/modules/${envDevModule}/dev/index.js`
+        : `${templatePath}/src/index`
     ),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn(`${templatePath}/src`),
+    appPackages: resolveOwn(`${templatePath}/src/packages`),
     appTsConfig: resolveOwn(`${templatePath}/tsconfig.json`),
     appJsConfig: resolveOwn(`${templatePath}/jsconfig.json`),
     yarnLockFile: resolveOwn(`${templatePath}/yarn.lock`),
