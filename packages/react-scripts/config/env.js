@@ -32,6 +32,15 @@ if (!process.env.DOTENV) {
   );
   process.exit(0);
 }
+// EH Custom: Ensure the env file is exist
+if (!fs.existsSync(process.env.DOTENV)) {
+  console.log(
+    chalk.red(
+      'Missing env file. Please double check. If you are developing on your local, please create .env.development and copy content from .env.development.example'
+    )
+  );
+  process.exit(0);
+}
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
 const dotenvFiles = [
@@ -40,6 +49,7 @@ const dotenvFiles = [
 ];
 
 console.log('dotenvFiles', dotenvFiles);
+
 // Load environment variables from .env* files. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.  Variable expansion is supported in .env files.
