@@ -61,6 +61,8 @@ const sassModuleRegex = /\.module\.(scss|sass)$/;
 
 const disabledChunkHash = !!process.env.DISABLED_CHUNK_HASH;
 
+const terserParallel = parseInt(process.env.TERSER_PARALLEL || '2', 10);
+
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
 module.exports = function(webpackEnv) {
@@ -141,7 +143,7 @@ module.exports = function(webpackEnv) {
         {
           loader: require.resolve(preProcessor),
           options: {
-            sourceMap: true,
+            sourceMap: isEnvProduction && shouldUseSourceMap,
           },
         }
       );
@@ -224,6 +226,7 @@ module.exports = function(webpackEnv) {
       minimizer: [
         // This is only used in production mode
         new TerserPlugin({
+          parallel: terserParallel,
           terserOptions: {
             parse: {
               // We want terser to parse ecma 8 code. However, we don't want it
