@@ -40,6 +40,8 @@ const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
 
+const DeadCodePlugin = require('webpack-deadcode-plugin'); // EH Custom
+
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
@@ -747,6 +749,15 @@ module.exports = function(webpackEnv) {
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
+      // EH Custom
+      isEnvProduction && process.env.CHECK_DEADCODE === 'true' && new DeadCodePlugin({
+        patterns: [
+          'src/**/*.(js|jsx|css)',
+        ],
+        exclude: [
+          '**/*.(stories|spec).(js|jsx)',
+        ],
+      })
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
