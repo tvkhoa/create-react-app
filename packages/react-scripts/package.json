@@ -1,6 +1,6 @@
 {
   "name": "eh-react-scripts",
-  "version": "3.3.0-15",
+  "version": "3.3.0-16",
   "description": "Configuration and scripts for Create React App.",
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   "types": "./lib/react-app.d.ts",
   "dependencies": {
     "@babel/core": "7.7.5",
+    "@ehrocks/react-dev-utils": "^10.0.1",
     "@svgr/webpack": "4.3.3",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
@@ -67,7 +68,6 @@
     "postcss-preset-env": "6.7.0",
     "postcss-safe-parser": "4.0.1",
     "react-app-polyfill": "^1.0.5",
-    "@ehrocks/react-dev-utils": "^10.0.1",
     "resolve": "1.13.1",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.0",
@@ -77,6 +77,7 @@
     "ts-pnp": "1.1.5",
     "url-loader": "2.3.0",
     "webpack": "4.41.2",
+    "webpack-deadcode-plugin": "^0.1.12",
     "webpack-dev-server": "3.9.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
