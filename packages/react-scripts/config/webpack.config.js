@@ -754,9 +754,9 @@ module.exports = function(webpackEnv) {
         patterns: [
           'src/**/*.(js|jsx|css)',
         ],
-        exclude: [
-          '**/*.(stories|spec).(js|jsx)',
-        ],
+        exclude: process.env.DEADCODE_EXCLUDE
+          ? process.env.DEADCODE_EXCLUDE.split(',')
+          : ['**/*.(stories|spec).(js|jsx)'],
       })
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
