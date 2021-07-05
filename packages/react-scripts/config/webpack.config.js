@@ -294,6 +294,23 @@ module.exports = function(webpackEnv) {
       splitChunks: {
         chunks: 'all',
         name: true, // EH Custom
+        minSize: 20000,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        cacheGroups: {
+          // Turn it on for long term caching
+          // heroDesign: {
+          //   test: /[\\/]node_modules[\\/]hero-design[\\/]/,
+          //   priority: 1,
+          //   reuseExistingChunk: true,
+          // },
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+        },
       },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
@@ -750,14 +767,14 @@ module.exports = function(webpackEnv) {
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
       // EH Custom
-      isEnvProduction && process.env.CHECK_DEADCODE === 'true' && new DeadCodePlugin({
-        patterns: [
-          'src/**/*.(js|jsx|css)',
-        ],
-        exclude: process.env.DEADCODE_EXCLUDE
-          ? process.env.DEADCODE_EXCLUDE.split(',')
-          : ['**/*.(stories|spec).(js|jsx)'],
-      })
+      isEnvProduction &&
+        process.env.CHECK_DEADCODE === 'true' &&
+        new DeadCodePlugin({
+          patterns: ['src/**/*.(js|jsx|css)'],
+          exclude: process.env.DEADCODE_EXCLUDE
+            ? process.env.DEADCODE_EXCLUDE.split(',')
+            : ['**/*.(stories|spec).(js|jsx)'],
+        }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
